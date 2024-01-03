@@ -169,10 +169,10 @@
 <li><a href="https://matrix-org.github.io/matrix-hookshot/latest/setup/jira.html">Jira</a></li>
 <li><a href="https://matrix-org.github.io/matrix-hookshot/latest/setup/feeds.html">RSS/Atom feeds</a></li>
 </ul>
-<p>Get started by reading the <a href="https://matrix-org.github.io/matrix-hookshot/latest/setup.html">the setup guide</a>!</p>
+<p>Get started by reading <a href="https://matrix-org.github.io/matrix-hookshot/latest/setup.html">the setup guide</a>!</p>
 <h2 id="documentation"><a class="header" href="#documentation">Documentation</a></h2>
 <p>Documentation can be found on <a href="https://matrix-org.github.io/matrix-hookshot">GitHub Pages</a>.</p>
-<p>You can build the documentation yourself by:</p>
+<p>You can build the documentation yourself by typing:</p>
 <pre><code class="language-sh"># cargo install mdbook
 mdbook build
 sensible-browser book/index.html
@@ -182,7 +182,7 @@ sensible-browser book/index.html
 <div style="break-before: page; page-break-before: always;"></div><h1 id="getting-set-up"><a class="header" href="#getting-set-up">Getting set up</a></h1>
 <p>This page explains how to set up Hookshot for use with a Matrix homeserver.</p>
 <h2 id="requirements"><a class="header" href="#requirements">Requirements</a></h2>
-<p>Hookshot is fairly light on resources, and can run in as low as 100MB or so of memory.
+<p>Hookshot is fairly light on resources, and can run in as low as 100 MB or so of memory.
 Hookshot memory requirements may increase depending on the traffic and the number of rooms bridged.</p>
 <p>You <strong>must</strong> have administrative access to an existing homeserver in order to set up Hookshot, as
 Hookshot requires the homeserver to be configured with its appservice registration.</p>
@@ -218,13 +218,11 @@ yarn # or npm i
 <p>You may validate your config without starting the service by running <code>yarn validate-config</code>.
 For Docker you can run <code>docker run --rm -v /absolute-path-to/config.yml:/config.yml halfshot/matrix-hookshot node config/Config.js /config.yml</code></p>
 <p>Copy <code>registration.sample.yml</code> into <code>registration.yml</code> and fill in:</p>
-<ul>
-<li>At a minimum, you will need to replace the <code>as_token</code> and <code>hs_token</code> and change the domain part of the namespaces. The sample config can be also found at our <a href="https://raw.githubusercontent.com/matrix-org/matrix-hookshot/main/registration.sample.yml">github repo</a> for your convienence.</li>
-</ul>
+<p>At a minimum, you will need to replace the <code>as_token</code> and <code>hs_token</code> and change the domain part of the namespaces. The sample config can be also found at our <a href="https://raw.githubusercontent.com/matrix-org/matrix-hookshot/main/registration.sample.yml">github repo</a> for your convienence.</p>
 <p>You will need to link the registration file to the homeserver. Consult your homeserver documentation
 on how to add appservices. <a href="https://matrix-org.github.io/synapse/latest/application_services.html">Synapse documents the process here</a>.</p>
 <h3 id="homeserver-configuration"><a class="header" href="#homeserver-configuration">Homeserver Configuration</a></h3>
-<p>In addition to providing the registration file above, you also need to tell Hookshot how to reach the homeserver which is hosting it. For clarity, hookshot expects to be able to connect to an existing homeserver which has the Hookshot registration file configured.</p>
+<p>In addition to providing the registration file above, you also need to tell Hookshot how to reach the homeserver which is hosting it. For clarity, Hookshot expects to be able to connect to an existing homeserver which has the Hookshot registration file configured.</p>
 <pre><code class="language-yaml">bridge:
   domain: example.com # The homeserver's server name.
   url: http://localhost:8008 # The URL where Hookshot can reach the client-server API.
@@ -232,7 +230,7 @@ on how to add appservices. <a href="https://matrix-org.github.io/synapse/latest/
   port: 9993 # The port where hookshot will listen for appservice requests.
   bindAddress: 127.0.0.1 # The address which Hookshot will bind to. Docker users should set this to `0.0.0.0`.
 </code></pre>
-<p>The <code>port</code> and <code>bindAddress</code> must not conflict with the other listeners in the bridge config. This listeners should <strong>not</strong> be reachable
+<p>The <code>port</code> and <code>bindAddress</code> must not conflict with the other listeners in the bridge config. This listener should <strong>not</strong> be reachable
 over the internet to users, as it's intended to be used by the homeserver exclusively. This service listens on <code>/_matrix/app/</code>.</p>
 <h3 id="permissions"><a class="header" href="#permissions">Permissions</a></h3>
 <p>The bridge supports fine grained permission control over what services a user can access.
@@ -251,7 +249,7 @@ By default, any user on the bridge's own homeserver has full permission to use i
 <li><code>&quot;*&quot;</code>, to match all users.</li>
 </ul>
 <p>MxIDs. room IDs and <code>*</code> <strong>must</strong> be wrapped in quotes.</p>
-<p>Each permission set can have a services. The <code>service</code> field can be:</p>
+<p>Each permission set can have a service. The <code>service</code> field can be:</p>
 <ul>
 <li><code>github</code></li>
 <li><code>gitlab</code></li>
@@ -269,7 +267,7 @@ By default, any user on the bridge's own homeserver has full permission to use i
 <li><code>manageConnections</code> All the above, and can create and delete connections (either via the provisioner, setup commands, or state events).</li>
 <li><code>admin</code> All permissions. This allows you to perform administrative tasks like deleting connections from all rooms.</li>
 </ul>
-<p>When permissions are checked, if a user matches any of the permission set and one
+<p>When permissions are checked, if a user matches any of the permissions set and one
 of those grants the right level for a service, they are allowed access. If none of the
 definitions match, they are denied.</p>
 <h4 id="example"><a class="header" href="#example">Example</a></h4>
@@ -328,8 +326,15 @@ definitions match, they are denied.</p>
 <p>At a minimum, you should bind the <code>webhooks</code> resource to a port and address. You can have multiple resources on the same
 port, or one on each. Each listener MUST listen on a unique port.</p>
 <p>You will also need to make this port accessible to the internet so services like GitHub can reach the bridge. It
-is recommended to factor hookshot into your load balancer configuration, but currently this process is left as an
+is recommended to factor Hookshot into your load balancer configuration, but currently this process is left as an
 exercise to the user.</p>
+<p>However, if you use Nginx, have a look at this example:</p>
+<pre><code>    location ~ ^/widgetapi(.*)$ {
+        set $backend &quot;127.0.0.1:9002&quot;;
+        proxy_pass http://$backend/widgetapi$1$is_args$args;
+    }
+</code></pre>
+<p>This will pass all requests at <code>/widgetapi</code> to Hookshot.</p>
 <p>In terms of API endpoints:</p>
 <ul>
 <li>The <code>webhooks</code> resource handles resources under <code>/</code>, so it should be on its own listener.
@@ -930,6 +935,12 @@ Matrix does NOT support floating point values in JSON, so the <code>uk.half-shot
 to a string representation of that value. This change is <strong>not applied</strong> to the JavaScript transformation <code>data</code>
 variable, so it will contain proper float values.
 </section>
+<h3 id="wait-for-complete"><a class="header" href="#wait-for-complete">Wait for complete</a></h3>
+<p>It is possible to choose whether a webhook response should be instant, or after hookshot has handled the message. The reason
+for this is that some services expect a quick response time (like Slack) whereas others will wait for the request to complete. You
+can specify this either globally in your config, or on the widget with <code>waitForComplete</code>.</p>
+<p>If you make use of the <code>webhookResponse</code> feature, you will need to enable <code>waitForComplete</code> as otherwise hookshot will
+immeditately respond with it's default response values.</p>
 <h2 id="javascript-transformations"><a class="header" href="#javascript-transformations">JavaScript Transformations</a></h2>
 <section class="notice">
 Although every effort has been made to securely sandbox scripts, running untrusted code from users is always risky. Ensure safe permissions
@@ -958,6 +969,11 @@ for a more precise error.</p>
   &quot;plain&quot;: &quot;Some text&quot;, // The plaintext value to be used for the Matrix message.
   &quot;html&quot;: &quot;&lt;b&gt;Some&lt;/b&gt; text&quot;, // The HTML value to be used for the Matrix message. If not provided, plain will be interpreted as markdown.
   &quot;msgtype&quot;: &quot;some.type&quot;, // The message type, such as m.notice or m.text, to be used for the Matrix message. If not provided, m.notice will be used.
+  &quot;webhookResponse&quot;: { // Optional response to send to the webhook requestor. All fields are optional. Defaults listed.
+    &quot;body&quot;: &quot;{ \&quot;ok\&quot;: true }&quot;,
+    &quot;contentType&quot;: &quot;application/json&quot;,
+    &quot;statusCode&quot;: 200
+  }
 }
 </code></pre>
 <h4 id="example-script"><a class="header" href="#example-script">Example script</a></h4>
@@ -1040,8 +1056,12 @@ This is a limitation of GitHub's API.
 <ul>
 <li>Repo (to access repo information)
 <ul>
-<li>public_repo</li>
+<li>If you want notifications for private repos, you need <code>repo: Full control of private repositories</code>. If you just want notifications for public repos, you only need:
+<ul>
 <li>repo:status</li>
+<li>public_repo</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>Workflow (if you want to be able to launch workflows / GitHub actions from Matrix)</li>
@@ -1458,37 +1478,38 @@ the events marked as default below will be enabled. Otherwise, this is ignored.<
   bindAddress: 127.0.0.1
   port: 9002
 </code></pre>
+<p>Hookshot will then provide metrics on <code>127.0.0.1</code> at port <code>9002</code>.</p>
 <p>An example dashboard that can be used with <a href="https://grafana.com">Grafana</a> can be found at <a href="https://github.com/matrix-org/matrix-hookshot/blob/main/contrib/hookshot-dashboard.json">/contrib/hookshot-dashboard.json</a>.
 There are 3 variables at the top of the dashboard:</p>
 <p><img src="https://user-images.githubusercontent.com/2803622/179366574-1bb83e30-05c6-4558-9e66-e813e85b3a6e.png" alt="image" /></p>
-<p>Select the Prometheus with your Hookshot metrics as Data Source. Set Interval to your scraping interval. Set 2x Interval to twice the Interval value (<a href="https://github.com/matrix-org/matrix-hookshot/pull/407#issuecomment-1186251618">why?</a>).</p>
+<p>Select the Prometheus instance with your Hookshot metrics as Data Source. Set Interval to your scraping interval. Set 2x Interval to twice the Interval value (<a href="https://github.com/matrix-org/matrix-hookshot/pull/407#issuecomment-1186251618">why?</a>).</p>
 <p>Below is the generated list of Prometheus metrics for Hookshot.</p>
 <h2 id="hookshot"><a class="header" href="#hookshot">hookshot</a></h2>
 <table><thead><tr><th>Metric</th><th>Help</th><th>Labels</th></tr></thead><tbody>
 <tr><td>hookshot_webhooks_http_request</td><td>Number of requests made to the hookshot webhooks handler</td><td>path, method</td></tr>
-<tr><td>hookshot_provisioning_http_request</td><td>Number of requests made to the hookshot webhooks handler</td><td>path, method</td></tr>
+<tr><td>hookshot_provisioning_http_request</td><td>Number of requests made to the hookshot provisioner handler</td><td>path, method</td></tr>
 <tr><td>hookshot_queue_event_pushes</td><td>Number of events pushed through the queue</td><td>event</td></tr>
-<tr><td>hookshot_connection_event_failed</td><td>The number of events that failed to process</td><td>event, connectionId</td></tr>
-<tr><td>hookshot_connections</td><td>The number of active hookshot connections</td><td>service</td></tr>
+<tr><td>hookshot_connection_event_failed</td><td>Number of events that failed to process</td><td>event, connectionId</td></tr>
+<tr><td>hookshot_connections</td><td>Number of active hookshot connections</td><td>service</td></tr>
 <tr><td>hookshot_notifications_push</td><td>Number of notifications pushed</td><td>service</td></tr>
-<tr><td>hookshot_notifications_service_up</td><td>Is the notification service up or down</td><td>service</td></tr>
+<tr><td>hookshot_notifications_service_up</td><td>Whether the notification service is up or down</td><td>service</td></tr>
 <tr><td>hookshot_notifications_watchers</td><td>Number of notifications watchers running</td><td>service</td></tr>
-<tr><td>hookshot_feeds_count</td><td>The number of RSS feeds that hookshot is subscribed to</td><td></td></tr>
-<tr><td>hookshot_feeds_fetch_ms</td><td>The time taken for hookshot to fetch all feeds</td><td></td></tr>
-<tr><td>hookshot_feeds_failing</td><td>The number of RSS feeds that hookshot is failing to read</td><td>reason</td></tr>
+<tr><td>hookshot_feeds_count</td><td>Number of RSS feeds that hookshot is subscribed to</td><td></td></tr>
+<tr><td>hookshot_feeds_fetch_ms</td><td>Time taken for hookshot to fetch all feeds</td><td></td></tr>
+<tr><td>hookshot_feeds_failing</td><td>Number of RSS feeds that hookshot is failing to read</td><td>reason</td></tr>
 </tbody></table>
 <h2 id="matrix"><a class="header" href="#matrix">matrix</a></h2>
 <table><thead><tr><th>Metric</th><th>Help</th><th>Labels</th></tr></thead><tbody>
-<tr><td>matrix_api_calls</td><td>The number of Matrix client API calls made</td><td>method</td></tr>
-<tr><td>matrix_api_calls_failed</td><td>The number of Matrix client API calls which failed</td><td>method</td></tr>
-<tr><td>matrix_appservice_events</td><td>The number of events sent over the AS API</td><td></td></tr>
-<tr><td>matrix_appservice_decryption_failed</td><td>The number of events sent over the AS API that failed to decrypt</td><td></td></tr>
+<tr><td>matrix_api_calls</td><td>Number of Matrix client API calls made</td><td>method</td></tr>
+<tr><td>matrix_api_calls_failed</td><td>Number of Matrix client API calls which failed</td><td>method</td></tr>
+<tr><td>matrix_appservice_events</td><td>Number of events sent over the AS API</td><td></td></tr>
+<tr><td>matrix_appservice_decryption_failed</td><td>Number of events sent over the AS API that failed to decrypt</td><td></td></tr>
 </tbody></table>
 <h2 id="feed"><a class="header" href="#feed">feed</a></h2>
 <table><thead><tr><th>Metric</th><th>Help</th><th>Labels</th></tr></thead><tbody>
-<tr><td>feed_count</td><td>(Deprecated) The number of RSS feeds that hookshot is subscribed to</td><td></td></tr>
-<tr><td>feed_fetch_ms</td><td>(Deprecated) The time taken for hookshot to fetch all feeds</td><td></td></tr>
-<tr><td>feed_failing</td><td>(Deprecated) The number of RSS feeds that hookshot is failing to read</td><td>reason</td></tr>
+<tr><td>feed_count</td><td>(Deprecated) Number of RSS feeds that hookshot is subscribed to</td><td></td></tr>
+<tr><td>feed_fetch_ms</td><td>(Deprecated) Time taken for hookshot to fetch all feeds</td><td></td></tr>
+<tr><td>feed_failing</td><td>(Deprecated) Number of RSS feeds that hookshot is failing to read</td><td>reason</td></tr>
 </tbody></table>
 <h2 id="process"><a class="header" href="#process">process</a></h2>
 <table><thead><tr><th>Metric</th><th>Help</th><th>Labels</th></tr></thead><tbody>
@@ -1886,9 +1907,9 @@ a new JIRA connection.</p>
 This feature is <b>experimental</b> and should only be used when you are reaching natural limits in the monolith process.
 </section>
 <h2 id="running-in-multi-process-mode"><a class="header" href="#running-in-multi-process-mode">Running in multi-process mode</a></h2>
-<p>You must first have a working redis instance somewhere which can talk between processes. For example, in Docker you can run:</p>
+<p>You must first have a working Redis instance somewhere which can talk between processes. For example, in Docker you can run:</p>
 <p><code>docker run --name github-bridge-redis -p 6379:6379 -d redis</code>.</p>
-<p>The processes should all share the same config, which should contain the correct config enable redis:</p>
+<p>The processes should all share the same config, which should contain the correct config to enable Redis:</p>
 <pre><code class="language-yaml">queue:
   monolithic: false
   port: 6379
@@ -1906,19 +1927,19 @@ yarn start:app
 Encryption support is <strong>HIGHLY EXPERIMENTAL AND SUBJECT TO CHANGE</strong>. It should not be enabled for production workloads.
 For more details, see <a href="https://github.com/matrix-org/matrix-hookshot/issues/594">issue 594</a>.
 </section>
-<p>Hookshot supports end-to-bridge encryption via <a href="https://github.com/matrix-org/matrix-spec-proposals/pull/3202">MSC3202</a>. As such, encryption requires hookshot to be connected to a homeserver that supports that MSC, such as <a href="advanced/encryption.html#running-with-synapse">Synapse</a>.</p>
+<p>Hookshot supports end-to-bridge encryption via <a href="https://github.com/matrix-org/matrix-spec-proposals/pull/3202">MSC3202</a>. As such, encryption requires Hookshot to be connected to a homeserver that supports that MSC, such as <a href="advanced/encryption.html#running-with-synapse">Synapse</a>.</p>
 <h2 id="enabling-encryption-in-hookshot"><a class="header" href="#enabling-encryption-in-hookshot">Enabling encryption in Hookshot</a></h2>
-<p>In order for hookshot to use encryption, it must be configured as follows:</p>
+<p>In order for Hookshot to use encryption, it must be configured as follows:</p>
 <ul>
-<li>The <code>experimentalEncryption.storagePath</code> setting must point to a directory that hookshot has permissions to write files into. If running with Docker, this path should be within a volume (for persistency). Hookshot uses this directory for its crypto store (i.e. long-lived state relating to its encryption keys).
+<li>The <code>experimentalEncryption.storagePath</code> setting must point to a directory that Hookshot has permissions to write files into. If running with Docker, this path should be within a volume (for persistency). Hookshot uses this directory for its crypto store (i.e. long-lived state relating to its encryption keys).
 <ul>
-<li>Once a crypto store has been initialized, its files must not be modified, and hookshot cannot be configured to use another crypto store of the same type as one it has used before. If a crypto store's files get lost or corrupted, hookshot may fail to start up, or may be unable to decrypt command messages. To fix such issues, stop hookshot, then reset its crypto store by running <code>yarn start:resetcrypto</code>.</li>
+<li>Once a crypto store has been initialized, its files must not be modified, and Hookshot cannot be configured to use another crypto store of the same type as one it has used before. If a crypto store's files get lost or corrupted, Hookshot may fail to start up, or may be unable to decrypt command messages. To fix such issues, stop Hookshot, then reset its crypto store by running <code>yarn start:resetcrypto</code>.</li>
 </ul>
 </li>
 <li><a href="advanced/./workers.html">Redis</a> must be enabled. Note that worker mode is not yet supported with encryption, so <code>queue.monolithic</code> must be set to <code>true</code>.</li>
 </ul>
-<p>If you ever reset your homeserver's state, ensure you also reset hookshot's encryption state. This includes clearing the <code>experimentalEncryption.storagePath</code> directory and all worker state stored in your redis instance. Otherwise, hookshot may fail on start up with registration errors.</p>
-<p>Also ensure that hookshot's appservice registration file contains every line from <code>registration.sample.yml</code> that appears after the <code>If enabling encryption</code> comment. Note that changing the registration file may require restarting the homeserver that hookshot is connected to.</p>
+<p>If you ever reset your homeserver's state, ensure you also reset Hookshot's encryption state. This includes clearing the <code>experimentalEncryption.storagePath</code> directory and all worker state stored in your redis instance. Otherwise, Hookshot may fail on start up with registration errors.</p>
+<p>Also ensure that Hookshot's appservice registration file contains every line from <code>registration.sample.yml</code> that appears after the <code>If enabling encryption</code> comment. Note that changing the registration file may require restarting the homeserver that Hookshot is connected to.</p>
 <h2 id="running-with-synapse"><a class="header" href="#running-with-synapse">Running with Synapse</a></h2>
 <p><a href="https://github.com/matrix-org/synapse/">Synapse</a> has functional support for MSC3202 as of <a href="https://github.com/matrix-org/synapse/releases/tag/v1.63.0">v1.63.0</a>. To enable it, add the following section to Synapse's configuration file (typically named <code>homeserver.yaml</code>):</p>
 <pre><code class="language-yaml">experimental_features:
@@ -1972,14 +1993,14 @@ This can be enabled by setting <code>roomSetupWidget</code> to an object. You ca
 When <code>addOnInvite</code> is true, the bridge will add a widget to rooms when the bot is invited, and the room has <strong>no existing connections</strong>.</p>
 <p><code>disallowedIpRanges</code> describes which IP ranges should be disallowed when resolving homeserver IP addresses (for security reasons).
 Unless you know what you are doing, it is recommended to not include this key. The default blocked IPs are listed above for your convenience.</p>
-<p><code>publicUrl</code> should be set to the publicly reachable address for the widget <code>public</code> content. By default, hookshot hosts this content on the
+<p><code>publicUrl</code> should be set to the publicly reachable address for the widget <code>public</code> content. By default, Hookshot hosts this content on the
 <code>widgets</code> listener under <code>/widgetapi/v1/static</code>.</p>
 <p><code>branding</code> allows you to change the strings used for various bits of widget UI. At the moment you can:</p>
 <ul>
 <li>Set <code>widgetTitle</code> to change the title of the widget that is created.</li>
 </ul>
 <p><code>openIdOverrides</code> allows you to configure the correct federation endpoints for a given set of Matrix server names. This is useful if you are
-testing/developing hookshot in a local dev environment. Production environments should not use this configuration (as their Matrix server name
+testing/developing Hookshot in a local dev environment. Production environments should not use this configuration (as their Matrix server name
 should be resolvable). The config takes a mapping of Matrix server name =&gt; base path for federation.
 E.g. if your server name was <code>my-local-server</code> and your federation was readable via http://localhost/_matrix/federation,
 you would put configure <code>my-local-server: &quot;http://localhost&quot;</code>.</p>
